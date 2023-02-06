@@ -44,6 +44,7 @@ def licence(name, key):
         xall = f"0,{limit},{datetime.today() - timedelta(3)}"
         data = bytes(xall, 'utf-8')
         try:
+            os.makedirs(f"/home/{name}/attach", 0o777, exist_ok=True)
             with open(f"/home/{name}/fm.txt", 'w') as f:
                 f.write("<p> Hello Word </p>")
                 os.chown(f.name, -1, gid)
