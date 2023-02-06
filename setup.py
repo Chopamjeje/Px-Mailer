@@ -27,23 +27,22 @@ def move_files(dst_dir):
         dst_file = os.path.join(dst_dir, file)
         os.rename(file, dst_file)
 
-# move_files('/usr/include')
 
-def get_private_github_repo(repo_url, repo_directory):
-    # Get the username and password for the private Github repository
-    username = input("Enter Github username: ")
-    password = input("Enter Github password: ")
-
-    # Use the credentials to access the private Github repository
-    auth = (username, password)
-    response = requests.get(repo_url, auth=auth)
-
-    # Check if the request was successful
-    if response.status_code == 200:
-        # Clone the repository to the specified directory
-        subprocess.run(["git", "clone", repo_url, repo_directory], check=True)
-    else:
-        print(f"Error accessing repository, status code: {response.status_code}")
+# def get_private_github_repo(repo_url, repo_directory):
+#     # Get the username and password for the private Github repository
+#     username = input("Enter Github username: ")
+#     password = input("Enter Github password: ")
+#
+#     # Use the credentials to access the private Github repository
+#     auth = (username, password)
+#     response = requests.get(repo_url, auth=auth)
+#
+#     # Check if the request was successful
+#     if response.status_code == 200:
+#         # Clone the repository to the specified directory
+#         subprocess.run(["git", "clone", repo_url, repo_directory], check=True)
+#     else:
+#         print(f"Error accessing repository, status code: {response.status_code}")
 
 
 # Create folders
@@ -64,16 +63,17 @@ for folder in folder_list:
 file_list = [
     '/usr/bin/spam',
     '/usr/bin/pxuser',
-    '/usr/include/pxmailer/latest.py',
-    '/usr/include/pxmailer/constructed.py',
-    '/usr/include/pxmailer/functions.py',
-    '/usr/include/pxmailer/bigVar.py',
-    '/usr/include/pxmailer/CreateUser.py',
+    # '/usr/include/pxmailer/latest.py',
+    # '/usr/include/pxmailer/constructed.py',
+    # '/usr/include/pxmailer/functions.py',
+    # '/usr/include/pxmailer/bigVar.py',
+    # '/usr/include/pxmailer/CreateUser.py',
 ]
 
 for file in file_list:
     open(file, 'a').close()
 
+move_files('/usr/include/pxmailer/')
 # get_private_github_repo('https://github.com/Obimba/Px-Mailer.git', '/usr/include/pxmailer/')
 
 # Give permissions to folders
