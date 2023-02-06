@@ -1,9 +1,9 @@
 import os
 import sys
-import requests
+# import requests
 import subprocess
-import getpass
-import shutil
+# import getpass
+# import shutil
 
 
 def install_python_and_upgrade_pip():
@@ -167,7 +167,9 @@ subprocess.call(["yum", "install", "git", "-y"])
 subprocess.call(["git", "clone", "https://github.com/reingart/pyfpdf.git"])
 os.chdir("pyfpdf")
 subprocess.call(["python", "setup.py", "install"])
+subprocess.call(["python3", "setup.py", "install"])
 subprocess.call(["pip", "install", "fpdf"])
+subprocess.call(["pip3", "install", "fpdf"])
 
 # Install dos2unix
 subprocess.call(["yum", "install", "dos2unix"])

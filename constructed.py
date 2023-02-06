@@ -3,7 +3,7 @@ import random
 from fpdf import FPDF
 from datetime import datetime, timedelta
 from os import walk as oswalk
-import os
+# import os
 
 class PDF(FPDF):
 
