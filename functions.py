@@ -13,6 +13,7 @@ import time
 from time import sleep as tsleep
 from datetime import datetime, timedelta
 import re
+import hashlib
 
 xlinks = []
 bigflame = ""
@@ -63,6 +64,13 @@ def randomString(length):
 
 def base64enc(word):
     return str(base64.b64encode(word.encode('ascii')).decode('ascii'))
+
+
+def md5email(email):
+    salt = "pX-Toolx"
+    email = email.lower().strip()
+    fin = f"{email}{salt}"
+    return hashlib.md5(fin.encode('utf-8')).hexdigest()
 
 
 def updateLicence(count, limit, now):
@@ -315,48 +323,77 @@ def namegen():
 
 
 def lead():
-    fugazi = []
-    invalid = ["postmaster", "passport", "alibaba", "made-in-china", "tawk.", "@gmail.", "noreply", ".edu.", "@qq.com",
-               "promotion", "aliexpress", "admin",
-               "webmaster", "report", "abuse"]
+    fugazi = set()
+    invalid = {"@snov.io", "getresponse", "unsubscribe", "bounce", "postmaster", "passport", "alibaba", "made-in-china", "tawk.", "@gmail.", "reply", "noreply", ".edu.", "@qq.com", "promotion", "aliexpress", "admin", "webmaster", "report", "abuse", "google", "@navercorp.com"}
     filename = f"{str(Path.home())}/leads.txt"
     try:
-        # print(filename)
-        with open(f'{filename}') as f:
-            for items in f:
-                with open(f"{os.path.dirname(os.path.realpath(__file__))}/leads/{os.getlogin()}.txt", "a",
-                          encoding="UTF-8") as gf:
-                    gf.write(f"{items}\n")
-
-                leadsinfo = {}
-                try:
-                    email, vname, vcorp = items.split("|")
-                    email = re.search(EMAIL_REGEX, str(email))
-                    email = email.group(0)
-                    if email not in fugazi and next((True for ban in invalid if ban in email), False) is False:
-                        fugazi.append(email)
-                        leadsinfo['email'] = email.strip()
-                        leadsinfo['vname'] = vname.strip()
-                        leadsinfo['vcorp'] = vcorp.strip()
-                        leads.append(leadsinfo)
-                except ValueError:
-                    # xii = (re.finditer(EMAIL_REGEX, str(items))).group(0)
+        with open(f'{filename}', 'r') as f:
+            with open(f"{os.path.dirname(os.path.realpath(__file__))}/leads/{os.getlogin()}.txt", "a",
+                      encoding="UTF-8") as gf:
+                for items in f:
                     try:
-                        email = re.search(EMAIL_REGEX, str(items))
+                        items_list = items.split("|")
+                        if len(items_list) == 1:
+                            email = str(items_list)
+                            vname = ""
+                            vcorp = ""
+                        elif len(items_list) == 2:
+                            email, vname = items_list
+                            vcorp = ""
+                        elif len(items_list) == 3:
+                            email, vname, vcorp = items_list
+                        email = re.search(EMAIL_REGEX, str(email))
                         email = email.group(0)
+                        email = email.lower()
                         if email not in fugazi and next((True for ban in invalid if ban in email), False) is False:
-                            fugazi.append(email)
+                            leadsinfo = {}
                             leadsinfo['email'] = email.strip()
-                            leadsinfo['vname'] = ""
-                            leadsinfo['vcorp'] = ""
+                            leadsinfo['vname'] = vname.strip()
+                            leadsinfo['vcorp'] = vcorp.strip()
                             leads.append(leadsinfo)
-                    except:
+                            fugazi.add(email)
+                            gf.write(f"{email}|{vname}|{vcorp}\n")
+                    except Exception as e:
+                        print(e)
                         pass
-                except:
-                    pass
     except Exception as ex:
         print(f"error, ({filename}) is not correctly formated.\n")
         print(ex)
         sys.exit()
 
 
+def generate_html_message(link):
+    ln1 = ["Hello,", "Hi,", "Dear,", "Greetings,"]
+    ln2 = ["we", "our team"]
+    ln3 = ["would like to place", "are interested in placing"]
+    ln4 = ["an order for", "a purchase order for"]
+    ln5 = ["the following items:", "the items listed below:"]
+    greeting = random.choice(ln1) + " " + random.choice(ln2) + " " + random.choice(ln3) + " " + random.choice(ln4) + " " + random.choice(ln5)
+
+    ln1 = ["Please", "kindly"]
+    ln2 = ["view", "see"]
+    ln3 = ["the attached", "the enclosed"]
+    ln4 = ["files", "documents"]
+    ln5 = ["for more information.", "for further details."]
+    suborder = random.choice(ln1) + " " + random.choice(ln2) + " " + random.choice(ln3) + " " + random.choice(ln4) + " " + random.choice(ln5)
+
+    ln1 = ["We", "Our company"]
+    ln2 = ["hope", "believe"]
+    ln3 = ["this order will", "we can"]
+    ln4 = ["be", "prove to be"]
+    ln5 = ["beneficial", "profitable", "satisfactory"]
+    ln6 = ["for both parties.", "for our business relationship."]
+    footer = random.choice(ln1) + " " + random.choice(ln2) + " " + random.choice(ln3) + " " + random.choice(ln4) + " " + random.choice(ln5) + " " + random.choice(ln6)
+
+    # Generating the message with styles
+    message = f"""
+        <div><!-- style="background-color: #f7f7f7; padding: 20px; font-family: Arial, sans-serif;">-->
+            <p style="font-size: 16px; font-weight: bold; margin: 0;">{greeting}</p>
+            <p style="font-size: 14px; margin-top: 10px;">{suborder}</p>
+            <p style="font-size: 14px; margin-top: 10px;">{footer}</p>
+            <p style="font-size: 14px; margin-top: 10px;">Please find the link to the order files:>> <a href='{link}' style="color: #008cba;">{link}</a></p>
+            <br>
+        </div>
+    """
+
+    return message
