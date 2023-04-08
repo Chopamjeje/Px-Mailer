@@ -21,7 +21,7 @@ def install_python_and_upgrade_pip():
 
 
 def move_files(dst_dir):
-    files = ['latest.py', 'constucted.py', 'bigVar.py', 'CreateUser.py', 'functions.py']
+    files = ['latest.py', 'constructed.py', 'bigVar.py', 'CreateUser.py', 'functions.py']
     # Move each file to the destination directory
     for file in files:
         dst_file = os.path.join(dst_dir, file)
