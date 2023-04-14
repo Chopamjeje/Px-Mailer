@@ -95,9 +95,9 @@ def mailer(x, y, z):
     smtp_max = 500
     check()
     email, vname, vcorp = x, y, z
-    smtpuser = "ritazhou@gzcraft.com"
-    smtp_pass = "guangzeng1230"
-    smtp_server = "smtp.mxhichina.com"
+    smtpuser = "smtp-username-goes-here"
+    smtp_pass = "smtp-password-goes-here"
+    smtp_server = "smtp-server-goes-here"
     port = 465
     # amount = f"{phone(2)},{phone(3)}.{phone(2)}"
     pdate = str(datetime.today()).split(" ")[0]
