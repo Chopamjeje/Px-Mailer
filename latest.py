@@ -24,12 +24,20 @@ check()
 os.system('clear')
 welcome()
 defsub = ""
+successcount = ""
+
+sendmode = int(input("Would you like to use smtp or localhost?\n1. SMTP\n2. Localhost\n:>> "))
 
 sub = int(input(
     "What type of message do you want to send\n1. linkedin \n2. purcahse order \n3. payment \n4. quota \n5. big file. \n6. enter your subject. \n ::> "))
 
 if sub == 6:
     defsub = str(input("Enter Your Subject \n ::> "))
+
+
+# if sendmode != 1:
+#     successcount == 100000
+
 
 
 # def subjectgen(type):
@@ -91,14 +99,9 @@ if sub == 6:
 
 
 def mailer(x, y, z):
-    successcount = 60000
-    smtp_max = 500
+    successcount = 0
     check()
     email, vname, vcorp = x, y, z
-    smtpuser = "smtp-username-goes-here"
-    smtp_pass = "smtp-password-goes-here"
-    smtp_server = "smtp-server-goes-here"
-    port = 465
     # amount = f"{phone(2)},{phone(3)}.{phone(2)}"
     pdate = str(datetime.today()).split(" ")[0]
     vdate = str(datetime.today() - timedelta(2)).split(" ")[0]
@@ -128,24 +131,25 @@ def mailer(x, y, z):
     ccemail = f'{ccname.split(" ")[1]}.{ccname.split(" ")[0]}{domain}'
     cc = f'"{ccname}"({ccemail})'
     position = str(posgen())
-    # me = f'"{position} | {fullname}"<{fullemail.lower()}>'
     mex = "quote0912.02@outlook.com"
-    if successcount <= smtp_max:
-        me = f'"{fullname}"<{smtpuser}>'
-        #me = f'"{fullname}"<{lastname}_{firstname}.{randomchar(random.randrange(2, 8))}@estlye.com>'
-    else:
-        me = f'"{fullname}"<{fullemail.lower()}>'
-
+    me = f'"{fullname}"<{fullemail.lower()}>'
     userdomain = email.split('@')[1]
     userdomainfront = userdomain.split('.')[0]
-    if bigflame == 404:
-        me = f'"{userdomain.split(".")[0]} Warning!"<>'
     emailuser = email.split('@')[0]
+    if sendmode == 1:
+        smtp_settings = random.choice(read_smtp_file())
+        smtpuser = smtp_settings["smtpuser"]
+        smtp_pass = smtp_settings["smtppass"]
+        smtp_server = smtp_settings["smtpserver"]
+        port = smtp_settings["smtpport"]
+        me = f'"{fullname}"<{smtpuser}>'
+
     msg = MIMEMultipart('alternative')
     msg['Subject'] = f"Re:{subj}."
     msg['From'] = me
     msg['To'] = email
     msg.add_header('reply-to', mex)
+
     text = f"see below information \n\n{link}\n\nThanks awaitng your quick action"  # text
     replaceable = {
         '{email}': f'{email}',
@@ -183,8 +187,8 @@ def mailer(x, y, z):
         '{pdate}': f'{pdate}',
         '{pxrand}': f'<font id="{pirand}">{randomchar(random.randrange(2, 13))}&shy;{datetime.today()}</font>',
         '{pirand}': f'{pirand}'
-
     }
+
     fmname = f"{str(Path.home())}/fm.txt"
     with open(f'{fmname}', 'r') as f:
         html = f.read()
@@ -243,7 +247,7 @@ def mailer(x, y, z):
                 part3.add_header('Content-Disposition', 'attachment; filename="%s" ' % attachname)
                 msg.attach(part3)
 
-        if successcount <= smtp_max:
+        if sendmode == 1:
             with smtplib.SMTP_SSL(smtp_server, port) as mailer:
                 #mailer.starttls()
                 mailer.login(smtpuser, smtp_pass)
@@ -269,7 +273,6 @@ def mailer(x, y, z):
         pass
     except Exception as ex:
         print(f"Something went wrong….\n {ex}\nskipping {email}\n")
-        # mailer(email, vname, vcorp)
         pass
     tsleep(1)
     successcount += 1
@@ -281,11 +284,8 @@ if attach == "1":
     xatt = input("1. Enter Path of Your Attachment\n2. Generate PDF Attachment\n::> ")
     if xatt == "1":
         filename = str(input(f"Enter Path/Name of your attachment::>{str(Path.home())}/"))
-        # filename = f'{str(Path.home())}/{attachname}'
     elif xatt == "2":
         attach = "404"
-    elif xatt == "404":
-        bigflame = 404
     else:
         print("Invalid selection")
         sys.exit(3)
@@ -294,6 +294,7 @@ os.system('clear')
 welcome()
 for lead in leads:
     mailer(lead['email'], lead['vname'], lead['vcorp'])
+
 
 print("\nemails sent completely \n")
 tsleep(15)
