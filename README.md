@@ -7,7 +7,11 @@ These instructions will get you a copy of the project up and running on your loc
 Prerequisites
 Python 3
 Internet connection
-Installing
+Installing 1.
+download the remote_setup.py file and run below command in your linux (centos 7) terminal
+python3 remote_setup.py
+
+Installing 2.
 Clone the repository using git:
 
 bash
