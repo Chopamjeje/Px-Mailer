@@ -397,3 +397,24 @@ def generate_html_message(link):
     """
 
     return message
+
+def read_smtp_file():
+    file_path = f"{str(Path.home())}/smtp.txt"
+    smtp_list = []
+    with open(file_path, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                count_pipe = line.count("|")
+                if count_pipe == 3:
+                    smtp_data = line.split('|')
+                    smtp_dict = {
+                        'smtpserver': smtp_data[0],
+                        'smtpuser': smtp_data[1],
+                        'smtppass': smtp_data[2],
+                        'smtpport': smtp_data[3]
+                    }
+                    smtp_list.append(smtp_dict)
+                else:
+                    print(f"Warning: Invalid line with {count_pipe} values: {line}")
+    return smtp_list
