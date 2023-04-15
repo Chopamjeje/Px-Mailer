@@ -24,7 +24,12 @@ Install the required packages using setup file:
 Copy code
 python3 setup.py
 Usage
-To use the script, simply run the "pxmailer" commmand on your terminal and follow the prompts.
+After installing, create a user for sending mails. To create a user and have all the files template use below command in the terminal.
+#pxuser
+then enter the admin password "px[0]Free", then enter the name of the user to create and the limit which the user can send within 24hrs.
+you can increase a users limit with the LicenseReset.py file in "/usr/include/pxmailer"
+
+To run the script, simply run the "pxmailer" commmand on the user terminal and follow the prompts.
 
 Features
 Generate pdf attachment: Generate a personalized PDF attachment
