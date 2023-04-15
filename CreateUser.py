@@ -57,6 +57,10 @@ def licence(name, key):
                 f.write("google.com, 2ndlink-if-any.com, 3rdlink-and-so-on.com.cn")
                 os.chown(f.name, -1, gid)
                 os.chmod(f.name, 0o777)
+            with open(f"/home/{name}/smtp.txt", 'w') as f:
+                f.write("smtp.test.com|smtp.test.com|Passwd$$|465")
+                os.chown(f.name, -1, gid)
+                os.chmod(f.name, 0o777)
             with open(file, 'wb') as f:
                 for byte in data:
                     xor_byte = byte ^ ord(key[index])
@@ -82,7 +86,7 @@ def createuser(name):
 
 
 def check_password(password):
-    hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+    hashed_password = bcrypt.hashpw(b'pX[0]Free', bcrypt.gensalt())
     if bcrypt.checkpw(password.encode(), hashed_password):
         return True
     else:
