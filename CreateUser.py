@@ -81,7 +81,7 @@ def createuser(name):
     password = f"pX-{name.capitalize()}TimePa$$"
     encPass = crypt.crypt(password, crypt.mksalt(crypt.METHOD_SHA512))
     subprocess.run(["useradd", "-p", encPass, name])
-    print(f"User {name} created successfully")
+    print(f"User {name} created successfully\n=======================\nUsername:{name}\nPassword: {password}\n=======================\n")
     licence(name, password)
 
 
