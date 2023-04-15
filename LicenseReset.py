@@ -38,4 +38,4 @@ def createuser(name):
     licence(name, password)
 
 
-createuser("tester")
+createuser(str(input("Enter User name:>> ")))
