@@ -62,7 +62,7 @@ for folder in folder_list:
 
 # Create files
 file_list = [
-    '/usr/bin/spam',
+    '/usr/bin/pxmailer',
     '/usr/bin/pxuser',
     # '/usr/include/pxmailer/latest.py',
     # '/usr/include/pxmailer/constructed.py',
@@ -116,7 +116,7 @@ file_permissions = [
     '/usr/include/pxmailer/constructed.py',
     '/usr/include/pxmailer/latest.py',
     '/usr/bin/pxuser',
-    '/usr/bin/spam',
+    '/usr/bin/pxmailer',
 ]
 
 for file in file_permissions:
@@ -148,13 +148,13 @@ dos2unix_list = [
 for file in dos2unix_list:
     subprocess.call(["dos2unix", file])
 
-# Write content to /usr/bin/spam
-with open("/usr/bin/spam", "w") as f:
+# Write content to /usr/bin/pxmailer
+with open("/usr/bin/pxmailer", "w") as f:
     f.write("#!/bin/bash\npython3 /usr/include/pxmailer/latest.py")
 
 
-# Make /usr/bin/spam file executable
-os.chmod("/usr/bin/spam", 0o777)
+# Make /usr/bin/pxmailer file executable
+os.chmod("/usr/bin/pxmailer", 0o777)
 
 # Write content to /usr/bin/pxuser
 with open("/usr/bin/pxuser", "w") as f:
@@ -170,7 +170,7 @@ subprocess.call(["dos2unix", "/usr/include/pxmailer/constructed.py"])
 subprocess.call(["dos2unix", "/usr/include/pxmailer/bigVar.py"])
 subprocess.call(["dos2unix", "/usr/include/pxmailer/CreateUser.py"])
 subprocess.call(["dos2unix", "/usr/include/pxmailer/functions.py"])
-subprocess.call(["dos2unix", "/usr/bin/spam"])
+subprocess.call(["dos2unix", "/usr/bin/pxmailer"])
 subprocess.call(["dos2unix", "/usr/bin/pxuser"])
 
 # Install python3
@@ -200,7 +200,7 @@ subprocess.call(["dos2unix", "/usr/include/pxmailer/constructed.py"])
 subprocess.call(["dos2unix", "/usr/include/pxmailer/bigVar.py"])
 subprocess.call(["dos2unix", "/usr/include/pxmailer/CreateUser.py"])
 subprocess.call(["dos2unix", "/usr/include/pxmailer/functions.py"])
-subprocess.call(["dos2unix", "/usr/bin/spam"])
+subprocess.call(["dos2unix", "/usr/bin/pxmailer"])
 subprocess.call(["dos2unix", "/usr/bin/pxuser"])
 install_python_and_upgrade_pip()
 subprocess.call(["pip3", "install", "bcrypt"])
