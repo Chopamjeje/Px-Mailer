@@ -6,6 +6,7 @@ import grp
 import subprocess
 import bcrypt
 import crypt
+import socket
 
 
 def welcome():
@@ -26,6 +27,12 @@ def welcome():
     for x in lines:
         print(x)
         time.sleep(0.1)
+        
+
+def get_ip_address():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    return s.getsockname()[0]
 
 
 def licence(name, key):
@@ -75,13 +82,13 @@ def licence(name, key):
             print(f"last error >> {ex}")
         else:
             print(f"Licence created successfully for {name}")
+        print(f"User {name} created successfully\n=======================\nHost/Server: {get_ip_address()}\nUsername: {name}\nPassword: {key}\n=======================\n")
 
 
 def createuser(name):
     password = f"pX-{name.capitalize()}TimePa$$"
     encPass = crypt.crypt(password, crypt.mksalt(crypt.METHOD_SHA512))
     subprocess.run(["useradd", "-p", encPass, name])
-    print(f"User {name} created successfully\n=======================\nUsername:{name}\nPassword: {password}\n=======================\n")
     licence(name, password)
 
 
