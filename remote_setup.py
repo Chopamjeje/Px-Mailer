@@ -29,22 +29,21 @@ def move_files(dst_dir):
         os.rename(file, dst_file)
 
 
-# def get_private_github_repo(repo_url, repo_directory):
-#     # Get the username and password for the private Github repository
-#     username = input("Enter Github username: ")
-#     password = input("Enter Github password: ")
-#
-#     # Use the credentials to access the private Github repository
-#     auth = (username, password)
-#     response = requests.get(repo_url, auth=auth)
-#
-#     # Check if the request was successful
-#     if response.status_code == 200:
-#         # Clone the repository to the specified directory
-#         subprocess.run(["git", "clone", repo_url, repo_directory], check=True)
-#     else:
-#         print(f"Error accessing repository, status code: {response.status_code}")
 
+def install_wget_pip_git():
+    # Install wget
+    subprocess.call(['sudo', 'yum', 'install', 'wget'])
+    
+    # Download get-pip.py using wget
+    subprocess.call(['wget', 'https://bootstrap.pypa.io/pip/2.7/get-pip.py'])
+    
+    # Install pip using python
+    subprocess.call(['sudo', 'python', 'get-pip.py'])
+    
+    # Install git
+    subprocess.call(["yum", "install", "git", "-y"])
+
+install_wget_pip_git()
 
 # Create folders
 folder_list = [
@@ -92,7 +91,7 @@ def clone_and_extract_repo(github_link):
 try:
     finalpath = clone_and_extract_repo("https://github.com/Obimba/Px-Mailer.git")
 except Exception as e:
-    print("error check"+e)
+    print("error check"+str(e))
 else:
     move_files('/usr/include/pxmailer/')
 
@@ -182,8 +181,6 @@ if sys.version_info[0] < 3:
 subprocess.call(["sudo", "yum", "install", "epel-release"])
 subprocess.call(["sudo", "yum", "install", "python-pip"])
 
-# Install git
-subprocess.call(["yum", "install", "git", "-y"])
 
 # Install fpdf
 subprocess.call(["git", "clone", "https://github.com/reingart/pyfpdf.git"])
@@ -206,4 +203,4 @@ install_python_and_upgrade_pip()
 subprocess.call(["pip3", "install", "bcrypt"])
 #os.remove(finalpath)
 shutil.rmtree(finalpath)
-os.remove(__file__)
+print("DONE")
